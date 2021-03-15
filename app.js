@@ -16,11 +16,12 @@ document.addEventListener('DOMContentLoaded', () => {
   const turnDisplay = document.querySelector('#whose-go');
   const infoDisplay = document.querySelector('#info');
   const userSquares = [];
+  const computerSquares = [];
 
   const width = 10;
 
   // Create Board
-  function createBoard(grid, squares, width) {
+  function createBoard(grid, squares) {
     for (let i = 0; i < width * width; i++) {
       const square = document.createElement('div');
       square.dataset.id = i;
@@ -29,5 +30,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  createBoard(userGrid, userSquares, width);
+  createBoard(userGrid, userSquares);
+  createBoard(computerGrid, computerSquares);
 });
