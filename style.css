@@ -20,7 +20,7 @@
 .grid div {
   width: 40px;
   height: 40px;
-  background-color: red;
+  /* background-color: red; */
 }
 
 .grid-computer {
@@ -78,4 +78,20 @@
 .ship div {
   width: 40px;
   height: 40px;
+}
+
+.destroyer {
+  background-color: orange;
+}
+.submarine {
+  background-color: pink;
+}
+.cruiser {
+  background-color: purple;
+}
+.battleship {
+  background-color: aqua;
+}
+.carrier {
+  background-color: green;
 }
