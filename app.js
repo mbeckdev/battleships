@@ -92,5 +92,13 @@ document.addEventListener('DOMContentLoaded', () => {
     const isAtLeftEdge = current.some(
       (index) => (randomStart + index) % width === 0
     );
+
+    if (!isTaken && !isAtRightEdge && !isAtLeftEdge) {
+      current.forEach((index) =>
+        computerSquares[randomStart + index].classList.add('taken', ship.name)
+      );
+    } else {
+      generate(ship);
+    }
   }
 });
