@@ -92,6 +92,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const isAtLeftEdge = current.some(
       (index) => (randomStart + index) % width === 0
     );
+<<<<<<< HEAD
 
     if (!isTaken && !isAtRightEdge && !isAtLeftEdge) {
       current.forEach((index) =>
@@ -100,5 +101,11 @@ document.addEventListener('DOMContentLoaded', () => {
     } else {
       generate(ship);
     }
+=======
+    if (!isTaken && !isAtRightEdge && !isAtLeftEdge)
+      current.forEach((index) =>
+        computerSquares[randomStart + index].classList.add('taken', ship.name)
+      );
+>>>>>>> 54c4f7763da8ee08bfe266be341083c260cc77f7
   }
 });
