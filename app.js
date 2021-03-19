@@ -17,6 +17,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const infoDisplay = document.querySelector('#info');
   const userSquares = [];
   const computerSquares = [];
+  let isHorizontal = true;
 
   const width = 10;
 
@@ -110,4 +111,19 @@ document.addEventListener('DOMContentLoaded', () => {
   generate(shipArray[2]);
   generate(shipArray[3]);
   generate(shipArray[4]);
+
+  // rotate the ships
+  function rotate() {
+    if (isHorizontal) {
+      isHorizontal = false;
+    } else {
+      isHorizontal = true;
+    }
+    destroyer.classList.toggle('destroyer-container-vertical');
+    submarine.classList.toggle('submarine-container-vertical');
+    cruiser.classList.toggle('cruiser-container-vertical');
+    battleship.classList.toggle('battleship-container-vertical');
+    carrier.classList.toggle('carrier-container-vertical');
+  }
+  rotateButton.addEventListener('click', rotate);
 });
