@@ -126,4 +126,66 @@ document.addEventListener('DOMContentLoaded', () => {
     carrier.classList.toggle('carrier-container-vertical');
   }
   rotateButton.addEventListener('click', rotate);
+
+  // move around user ship
+  ships.forEach((ship) => ship.addEventListener('dragstart', dragStart));
+  userSquares.forEach((square) =>
+    square.addEventListener('dragstart', dragStart)
+  );
+  userSquares.forEach((square) =>
+    square.addEventListener('dragover', dragOver)
+  );
+  userSquares.forEach((square) =>
+    square.addEventListener('dragenter', dragEnter)
+  );
+  userSquares.forEach((square) =>
+    square.addEventListener('dragleave', dragLeave)
+  );
+  userSquares.forEach((square) => square.addEventListener('drop', dragDrop));
+  userSquares.forEach((square) => square.addEventListener('dragend', dragEnd));
+
+  let selectedShipNameWithIndex;
+  let draggedShip;
+  let draggedShipLength;
+
+  ships.forEach((ship) =>
+    ship.addEventListener('mousedown', (e) => {
+      selectedShipNameWithIndex = e.target.id;
+      console.log(selectedShipNameWithIndex);
+    })
+  );
+
+  function dragStart() {
+    // console.log(e.target);
+    // console.log(this);
+    // so e.target and this are the same
+    draggedShip = this;
+    draggedShipLength = this.children.length; // replaces this.childNodes.length to get around random spaces as nodes issue
+    // console.log(draggedShip);
+    console.log(draggedShipLength);
+  }
+
+  function dragOver(e) {
+    e.preventDefault();
+  }
+
+  function dragEnter(e) {
+    e.preventDefault();
+  }
+
+  function dragLeave() {
+    console.log('drag leave');
+  }
+
+  function dragDrop() {
+    let shipNameWithLastId =
+      draggedShip.children[draggedShip.children.length - 1].id; //get last child node , because draggedShip.lastChild.id
+    // is picking up text between divs that isn't really there
+    // and just formatting the html so there are no spaces isn't going to work for me because I have prettier formatting it on saves.
+    // let shipNameWithLastId = draggedShip.lastChild.id;   <-- replaces this
+
+    let shipClass = shipNameWithLastId.slice(0, -2);
+    console.log(shipClass);
+  }
+  function dragEnd() {}
 });
