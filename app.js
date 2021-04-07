@@ -279,7 +279,7 @@ document.addEventListener('DOMContentLoaded', () => {
       0,
       10 * lastShipIndex
     );
-    let newNotAllowedVerticall = notAllowedHorizontal.splice(
+    let newNotAllowedVerticall = notAllowedVertical.splice(
       0,
       10 * lastShipIndex
     );
