@@ -292,7 +292,7 @@ document.addEventListener('DOMContentLoaded', () => {
     console.log('shipLastId now = ' + shipLastId);
 
     //
-    if (isHorizontal && newNotAllowedHorizontal.includes(shipLastId)) {
+    if (isHorizontal && !newNotAllowedHorizontal.includes(shipLastId)) {
       for (let i = 0; i < draggedShipLength; i++) {
         userSquares[
           parseInt(this.dataset.id) - selectedShipIndex + i
