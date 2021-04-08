@@ -132,15 +132,27 @@
 .destroyer {
   background-color: orange;
 }
+
 .submarine {
   background-color: pink;
 }
+
 .cruiser {
   background-color: purple;
 }
+
 .battleship {
   background-color: aqua;
 }
+
 .carrier {
   background-color: green;
+}
+
+.boom {
+  background-color: red;
+}
+
+.miss {
+  background-color: black;
 }
