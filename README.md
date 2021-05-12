@@ -3,6 +3,7 @@
 Following a 3 video tutorial to make a muliplayer battleship game
 
 https://mbeckdev.github.io/battleships/ <-- See it live here (in progress)
+
 http://battleship.tech/ <-- Final product should look something like this (I did not make this one)
 
 1st video https://www.youtube.com/watch?v=U64vIhh0TyM - single player version using HTML, CSS, JavaScript (done!)
