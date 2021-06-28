@@ -20,10 +20,29 @@ document.addEventListener('DOMContentLoaded', () => {
   let isHorizontal = true;
   let isGameOver = false;
   let currentPlayer = 'user';
-
   const width = 10;
+  let gameMode = '';
+  let playerNum = 0;
+  let ready = false;
+  let enemyReady = false;
+  let allShipsPlaced = false;
+  let shotFired = -1;
 
   const socket = io();
+
+  // Get your player number
+  socket.on('player-number', (num) => {
+    if (num === -1) {
+      infoDisplay.textContent = 'Sorry, the server is full';
+    } else {
+      playerNum = parseInt(num);
+      if (playerNum === 1) {
+        currentPlayer = 'enemy';
+      }
+
+      console.log(playerNum);
+    }
+  });
 
   // Create Board
   function createBoard(grid, squares) {
