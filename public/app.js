@@ -15,6 +15,9 @@ document.addEventListener('DOMContentLoaded', () => {
   const rotateButton = document.querySelector('#rotate');
   const turnDisplay = document.querySelector('#whose-go');
   const infoDisplay = document.querySelector('#info');
+  const singlePlayerButton = document.querySelector('#singlePlayerButton');
+  const multiPlayerButton = document.querySelector('#multiPlayerButton');
+
   const userSquares = [];
   const computerSquares = [];
   let isHorizontal = true;
@@ -28,22 +31,52 @@ document.addEventListener('DOMContentLoaded', () => {
   let allShipsPlaced = false;
   let shotFired = -1;
 
-  const socket = io();
+  // Select Player Mode
+  singlePlayerButton.addEventListener('click', startSinglePlayer);
+  multiPlayerButton.addEventListener('click', startMultiPlayer);
 
-  // Get your player number
-  socket.on('player-number', (num) => {
-    if (num === -1) {
-      infoDisplay.textContent = 'Sorry, the server is full';
-    } else {
-      playerNum = parseInt(num);
-      if (playerNum === 1) {
-        currentPlayer = 'enemy';
+  // Single Player
+  function startSinglePlayer() {
+    gameMode = 'singlePlayer';
+
+    generate(shipArray[0]);
+    generate(shipArray[1]);
+    generate(shipArray[2]);
+    generate(shipArray[3]);
+    generate(shipArray[4]);
+
+    startButton.addEventListener('click', playGameSingle);
+  }
+
+  // Multiplayer
+  function startMultiPlayer() {
+    gameMode = 'multiPlayer';
+
+    const socket = io();
+
+    // Get your player number
+    socket.on('player-number', (num) => {
+      if (num === -1) {
+        infoDisplay.textContent = 'Sorry, the server is full';
+      } else {
+        playerNum = parseInt(num);
+        if (playerNum === 1) {
+          currentPlayer = 'enemy';
+        }
+
+        console.log(playerNum);
       }
+    });
 
-      console.log(playerNum);
-    }
-  });
+    // Another player has connected or disconnected
+    socket.on('player-connection', (num) => {
+      console.log(`Player number ${num} has connected or disconnected`);
+    });
+  }
 
+  // **************************************
+  // Ania's code - gameplay below
+  // **************************************
   // Create Board
   function createBoard(grid, squares) {
     for (let i = 0; i < width * width; i++) {
@@ -128,12 +161,6 @@ document.addEventListener('DOMContentLoaded', () => {
       generate(ship);
     }
   }
-
-  generate(shipArray[0]);
-  generate(shipArray[1]);
-  generate(shipArray[2]);
-  generate(shipArray[3]);
-  generate(shipArray[4]);
 
   // rotate the ships
   function rotate() {
@@ -264,7 +291,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // Game Logic
-  function playGame() {
+  function playGameSingle() {
     if (isGameOver) return;
     if (currentPlayer === 'user') {
       turnDisplay.textContent = 'Your Turn';
@@ -280,8 +307,6 @@ document.addEventListener('DOMContentLoaded', () => {
       setTimeout(computerGo, 1000);
     }
   }
-
-  startButton.addEventListener('click', playGame);
 
   let destroyerCount = 0;
   let submarineCount = 0;
@@ -307,7 +332,7 @@ document.addEventListener('DOMContentLoaded', () => {
     checkForWins();
 
     currentPlayer = 'computer';
-    playGame();
+    playGameSingle();
   }
 
   let cpuDestroyerCount = 0;
@@ -401,7 +426,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   function gameOver() {
     isGameOver = true;
-    startButton.removeEventListener('click', playGame);
+    startButton.removeEventListener('click', playGameSingle);
   }
 });
 

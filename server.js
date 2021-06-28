@@ -38,4 +38,9 @@ io.on('connection', (socket) => {
 
   // Ignore player 3
   if (playerIndex === -1) return;
+
+  connections[playerIndex] = false;
+
+  // Tell everyone what player number just connected
+  socket.broadcast.emit('player-connection', playerIndex);
 });
