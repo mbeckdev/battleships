@@ -71,7 +71,19 @@ document.addEventListener('DOMContentLoaded', () => {
     // Another player has connected or disconnected
     socket.on('player-connection', (num) => {
       console.log(`Player number ${num} has connected or disconnected`);
+      playerConnectedOrDisconnected(num);
     });
+
+    function playerConnectedOrDisconnected(num) {
+      // p1 and p2 classes are in our css
+      let player = `.p${parseInt(num) + 1}`;
+      document
+        .querySelector(`${player} .connected span`)
+        .classList.toggle('green');
+      if (parseInt(num) === playerNum) {
+        document.querySelector(player).style.fontWeight = 'bold';
+      }
+    }
   }
 
   // **************************************
