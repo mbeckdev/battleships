@@ -65,6 +65,9 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         console.log(playerNum);
+
+        // Get other player status
+        socket.emit('check-players');
       }
     });
 
@@ -84,6 +87,30 @@ document.addEventListener('DOMContentLoaded', () => {
         document.querySelector(player).style.fontWeight = 'bold';
       }
     }
+
+    // On enemy ready
+    socket.on('enemy-ready', (num) => {
+      enemyReady = true;
+      playerReady(num);
+      if (ready) playGameMulti(socket);
+    });
+
+    // Check player status
+    socket.on('check-players', (players) => {
+      players.forEach((p, i) => {
+        if (p.connected) playerConnectedOrDisconnected(i);
+        if (p.ready) {
+          playerReady(i);
+          if (i != playerReady) enemyReady = true;
+        }
+      });
+    });
+
+    // Ready button click
+    startButton.addEventListener('click', () => {
+      if (allShipsPlaced) playGameMulti(socket);
+      else infoDisplay.textContent = 'Please place all ships';
+    });
   }
 
   // **************************************
@@ -296,13 +323,38 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // then remove it from the availble display grid
     displayGrid.removeChild(draggedShip);
+    if (!displayGrid.querySelector('.ship')) allShipsPlaced = true;
   }
 
   function dragEnd() {
     console.log('dragend');
   }
 
-  // Game Logic
+  // Game Logic for Multi Player
+  function playGameMulti(socket) {
+    if (isGameOver) return;
+    if (!ready) {
+      socket.emit('player-ready');
+      ready = true;
+      playerReady(playerNum);
+    }
+
+    if (enemyReady) {
+      if (currentPlayer === 'user') {
+        turnDisplay.textContent = 'Your Go';
+      }
+      if (currentPlayer === 'enemy') {
+        turnDisplay.textContent = "Enemy's Go";
+      }
+    }
+  }
+
+  function playerReady(num) {
+    let player = `.p${parseInt(num) + 1}`;
+    document.querySelector(`${player} .ready span`).classList.toggle('green');
+  }
+
+  // Game Logic for Single Player
   function playGameSingle() {
     if (isGameOver) return;
     if (currentPlayer === 'user') {
